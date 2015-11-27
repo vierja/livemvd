@@ -22,11 +22,17 @@ def conn(with_db=True):
 def create():
     print('Creating DB {} and tables {}'.format(RDB_DB, RDB_TABLES))
     time.sleep(5)
-    res = r.db_create(RDB_DB).run(conn(with_db=False))
-    print('Res: {}'.format(res))
-    for table in RDB_TABLES:
-        res = r.table_create(table).run(conn())
+    try:
+        res = r.db_create(RDB_DB).run(conn(with_db=False))
         print('Res: {}'.format(res))
+    except:
+        print('Already created')
+    for table in RDB_TABLES:
+        try:
+            res = r.table_create(table).run(conn())
+            print('Res: {}'.format(res))
+        except:
+            print('Already created {}'.format(table))
 
 
 def save(obj, table):
