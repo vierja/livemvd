@@ -22,7 +22,7 @@ apiReq('/api/variants', function(data) {
 var map = L.map('map').setView([-34.8696, -56.15147], 13).on('click', function(e) {
   console.log('Resetting map with', resetMap);
   resetMap();
-}).locate({setView: true, maxZoom: 16});
+});
 
 L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
   attribution: 'Map tiles by CartoDB, under CC BY 3.0. Data by OpenStreetMap, under ODbL'
