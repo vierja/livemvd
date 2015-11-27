@@ -52,9 +52,9 @@ var getPath = function (variantId) {
 var getCurrentBuses = function () {
   return new Promise(function(resolve, reject) {
     var now = new Date();
-    var tenMinutesAgo = new Date(now.getTime() - 2*60000);
-    r.db('livemvd').table('cutcsa_locations').filter(
-      r.row("date").gt(tenMinutesAgo)
+    var twoMinutesAgo = new Date(now.getTime() - 2*60000);
+    r.db('livemvd').table('cutcsa_locations').between(
+      twoMinutesAgo, r.maxval, {index: 'date'}
     ).group('unit_id').max('date').run(connection, function(err, cursor) {
       if (err) {
         console.log('returning error:', err);
