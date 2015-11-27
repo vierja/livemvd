@@ -7,6 +7,9 @@
 var app = require('../app').app;
 var server = require('../app').server;
 var debug = require('debug')('api:server');
+var sleep = require('sleep');
+
+sleep.sleep(5); // wait for services
 
 /**
  * Get port from environment and store in Express.

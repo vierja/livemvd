@@ -1,34 +1,23 @@
 import threading
 
 from .cutcsa import info as cutcsa_info
-from .persistence import save
+from .persistence import save, create
 
 SOURCES = [
     cutcsa_info
 ]
 
 
-def start(source, frequency, table):
-    print('Starting job for table: {}'.format(table))
-    while True:
-        for obj in source():
-            save(obj, table)
-
-
 def run():
+    create()
     print('Starting jobs')
     threads = []
     for source in SOURCES:
-        for subsources in source():
-            print('Starting thread: {}'.format(subsources))
+        for subsource in source():
+            print('Starting thread: {}'.format(subsource))
             t = threading.Thread(
                 None,
-                start,
-                args=(
-                    subsources['source'],
-                    subsources['frequency'],
-                    subsources['table']
-                )
+                subsource
             )
             t.start()
             threads.append(t)

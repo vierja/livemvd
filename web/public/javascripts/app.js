@@ -97,6 +97,7 @@ var getTitle = function(variantId, now) {
     return text;
 }
 
+var expiredBuses = [];
 var expireBuses = function() {
   var now = Date.now();
   console.log('Expiring buses');
@@ -106,6 +107,7 @@ var expireBuses = function() {
       console.log('Borro unitId', unitId, 'con ultima actualizacion', lastUpdate);
       map.removeLayer(busLocations[unitId]);
       delete busLocations[unitId];
+      expiredBuses.push(unitId);
     }
   }
   setTimeout(expireBuses, 60 * 1000);
@@ -114,6 +116,9 @@ setTimeout(expireBuses, 60 * 1000);
 
 
 var busUpdate = function(data) {
+  if (expiredBuses.indexOf(data.unit_id) >= 0) {
+    console.log('Expired bus', data.unit_id, 'appeared', data);
+  }
   var now = Date.now();
   var title = getTitle(data.variant_id, now);
   if (data.unit_id in busLocations) {

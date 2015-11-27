@@ -4,7 +4,7 @@ var constants = require('./constants.js');
 var r = require('rethinkdb');
 
 var connection = null;
-r.connect( {host: 'localhost', port: 28015}, function(err, conn) {
+r.connect( {host: 'rethinkdb', port: 28015}, function(err, conn) {
     if (err) throw err;
     connection = conn;
 })
@@ -52,7 +52,7 @@ var getPath = function (variantId) {
 var getCurrentBuses = function () {
   return new Promise(function(resolve, reject) {
     var now = new Date();
-    var tenMinutesAgo = new Date(now.getTime() - 10*60000);
+    var tenMinutesAgo = new Date(now.getTime() - 2*60000);
     r.db('livemvd').table('cutcsa_locations').filter(
       r.row("date").gt(tenMinutesAgo)
     ).group('unit_id').max('date').run(connection, function(err, cursor) {
